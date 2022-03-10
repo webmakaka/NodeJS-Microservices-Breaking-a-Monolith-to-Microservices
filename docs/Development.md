@@ -14,7 +14,7 @@
 ### Prepare Backend
 
 ```
-$ cd apps/api/node-ambassador
+$ cd node-ambassador
 $ npm install
 ```
 
@@ -59,7 +59,7 @@ node-ambassador-backend-1  | listening to port 8000
 <br/>
 
 ```
-$ cd apps/client/react-ambassador/react-admin
+$ cd react-ambassador/react-admin
 $ npm install
 $ npm start
 ```
@@ -68,7 +68,7 @@ $ npm start
 
 
 ```
-$ cd apps/client/react-ambassador/react-ambassador
+$ cd react-ambassador/react-ambassador
 $ npm install
 $ npm start
 ```
@@ -76,7 +76,7 @@ $ npm start
 <br/>
 
 ```
-$ cd apps/client/react-ambassador/next-checkout
+$ cd react-ambassador/next-checkout
 $ npm install
 $ npm run dev
 ```

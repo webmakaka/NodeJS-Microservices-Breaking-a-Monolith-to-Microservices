@@ -132,7 +132,11 @@ export const ConfirmOrder = async (req: Request, res: Response) => {
 
     await client.zIncrBy('rankings', order.ambassador_revenue, user.name);
 
-    const value = JSON.stringify(order);
+    const value = JSON.stringify({
+        ...order,
+        admin_revenue: order.total,
+        ambassador_revenue: order.ambassador_revenue
+    });
 
     await producer.connect();
 
