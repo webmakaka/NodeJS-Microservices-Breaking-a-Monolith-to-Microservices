@@ -1,8 +1,106 @@
 # [Antonio Papa] NodeJS Microservices: Breaking a Monolith to Microservices [ENG, 2022]
 
+
+<br/>
+
+## 02 - The Monolith
+
+<br/>
+
+### 001 Setup
+
+<br/>
+
+### Prepare Backend
+
+```
+$ cd apps/api/node-ambassador
+$ npm install
+```
+
+<br/>
+
+```
+$ docker-compose up
+```
+
+<br/>
+
+```
+$ docker-compose exec backend sh
+```
+
+<br/>
+
+```
+npm run seed:ambassadors
+npm run seed:products
+npm run seed:links
+npm run seed:orders
+npm run update:rankings
+```
+
+
+<br/>
+
+```
+// stop / start docker-compose
+
+***
+node-ambassador-db-1       | mbind: Operation not permitted
+node-ambassador-backend-1  | listening to port 8000
+```
+
+<br/>
+
+### Prepare Frontend
+
+
+<br/>
+
+```
+$ cd apps/client/react-ambassador/react-admin
+$ npm install
+$ npm start
+```
+
 <br/>
 
 
+```
+$ cd apps/client/react-ambassador/react-ambassador
+$ npm install
+$ npm start
+```
+
+<br/>
+
+```
+$ cd apps/client/react-ambassador/next-checkout
+$ npm install
+$ npm run dev
+```
+
+
+<br/>
+
+### 002 Stripe Keys
+
+stipe.com
+
+<br/>
+
+```
+next-checkout/constraints.ts
+node-ambassador/.env
+```
+
+<br/>
+
+https://github.com/mailhog/MailHog
+
+
+mailhog
 
 <br/><br/>
 
