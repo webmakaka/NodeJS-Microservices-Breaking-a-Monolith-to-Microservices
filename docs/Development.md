@@ -102,6 +102,92 @@ https://github.com/mailhog/MailHog
 
 mailhog
 
+
+<br/>
+
+## 03 - Email Microservices
+
+<br/>
+
+
+```
+$ mkdir email && cd email
+$ npm init -y
+
+$ npm install nodemailer
+$ npm install -D @types/nodemailer nodemon ts-node typescript
+```
+
+
+<br/>
+
+### 003 Kafka Setup
+
+
+**I will use local kafka**
+
+
+<br/>
+
+### 005 Consuming Kafka Messages
+
+<br/>
+
+```
+$ npm install kafkajs
+$ npm install -D @types/kafkajs
+```
+
+<br/>
+
+```
+$ npm run start
+```
+
+
+<br/>
+
+```
+// Create a Message
+$ kafka-console-producer.sh \
+    --broker-list localhost:9092 \
+    --topic default
+```
+
+<br/>
+
+
+```
+{"test":"test"}
+
+^C
+```
+
+<br/>
+
+**response:**
+
+
+<br/>
+
+```
+{ test: 'test' }
+```
+
+<br/>
+
+### 006 Producing Kafka Messages
+
+<br/>
+
+```
+$ cd node-ambassador/
+
+$ npm install kafkajs
+$ npm install -D @types/kafkajs
+```
+
+
 <br/><br/>
 
 ---

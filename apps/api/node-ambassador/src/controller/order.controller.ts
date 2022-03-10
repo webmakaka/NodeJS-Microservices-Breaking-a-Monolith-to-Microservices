@@ -1,13 +1,13 @@
-import {Request, Response} from "express";
-import {getConnection, getRepository} from "typeorm";
-import {Order} from "../entity/order.entity";
-import {Link} from "../entity/link.entity";
-import {Product} from "../entity/product.entity";
-import {OrderItem} from "../entity/order-item.entity";
+import { Request, Response } from "express";
 import Stripe from "stripe";
-import {client} from "../index";
-import {User} from "../entity/user.entity";
-import {createTransport} from "nodemailer";
+import { getConnection, getRepository } from "typeorm";
+import { Link } from "../entity/link.entity";
+import { OrderItem } from "../entity/order-item.entity";
+import { Order } from "../entity/order.entity";
+import { Product } from "../entity/product.entity";
+import { User } from "../entity/user.entity";
+import { client } from "../index";
+import { producer } from "../kafka/config";
 
 export const Orders = async (req: Request, res: Response) => {
     const orders = await getRepository(Order).find({
@@ -132,26 +132,16 @@ export const ConfirmOrder = async (req: Request, res: Response) => {
 
     await client.zIncrBy('rankings', order.ambassador_revenue, user.name);
 
-    const transporter = createTransport({
-        host: 'host.docker.internal',
-        port: 1025
-    });
+    const value = JSON.stringify(order);
 
-    await transporter.sendMail({
-        from: 'from@example.com',
-        to: 'admin@admin.com',
-        subject: 'An order has been completed',
-        html: `Order #${order.id} with a total of $${order.total} has been completed`
-    });
+    await producer.connect();
 
-    await transporter.sendMail({
-        from: 'from@example.com',
-        to: order.ambassador_email,
-        subject: 'An order has been completed',
-        html: `You earned $${order.ambassador_revenue} from the link #${order.code}`
-    });
+    await producer.send({
+        topic: 'default',
+        messages: [{value}]
+    })
 
-    await transporter.close();
+    
 
     res.send({
         message: 'success'
