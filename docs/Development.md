@@ -1,6 +1,5 @@
 # [Antonio Papa] NodeJS Microservices: Breaking a Monolith to Microservices [ENG, 2022]
 
-
 <br/>
 
 ## 02 - The Monolith
@@ -33,13 +32,13 @@ $ docker-compose exec backend sh
 <br/>
 
 ```
-npm run seed:ambassadors
-npm run seed:products
-npm run seed:links
-npm run seed:orders
-npm run update:rankings
+{
+    npm run seed:ambassadors
+    npm run seed:products
+    npm run seed:links
+    npm run seed:orders
+}
 ```
-
 
 <br/>
 
@@ -55,7 +54,6 @@ node-ambassador-backend-1  | listening to port 8000
 
 ### Prepare Frontend
 
-
 <br/>
 
 ```
@@ -65,7 +63,6 @@ $ npm start
 ```
 
 <br/>
-
 
 ```
 $ cd react-ambassador/react-ambassador
@@ -80,7 +77,6 @@ $ cd react-ambassador/next-checkout
 $ npm install
 $ npm run dev
 ```
-
 
 <br/>
 
@@ -99,16 +95,13 @@ node-ambassador/.env
 
 https://github.com/mailhog/MailHog
 
-
 mailhog
-
 
 <br/>
 
 ## 03 - Email Microservices
 
 <br/>
-
 
 ```
 $ mkdir email && cd email
@@ -118,14 +111,11 @@ $ npm install nodemailer
 $ npm install -D @types/nodemailer nodemon ts-node typescript
 ```
 
-
 <br/>
 
 ### 003 Kafka Setup
 
-
 **I will use local kafka**
-
 
 <br/>
 
@@ -134,6 +124,7 @@ $ npm install -D @types/nodemailer nodemon ts-node typescript
 <br/>
 
 ```
+$ mkdir email && cd email
 $ npm install kafkajs
 $ npm install -D @types/kafkajs
 ```
@@ -143,7 +134,6 @@ $ npm install -D @types/kafkajs
 ```
 $ npm run start
 ```
-
 
 <br/>
 
@@ -156,7 +146,6 @@ $ kafka-console-producer.sh \
 
 <br/>
 
-
 ```
 {"test":"test"}
 
@@ -166,7 +155,6 @@ $ kafka-console-producer.sh \
 <br/>
 
 **response:**
-
 
 <br/>
 
@@ -187,6 +175,71 @@ $ npm install kafkajs
 $ npm install -D @types/kafkajs
 ```
 
+<br/>
+
+## 04 - Users Microservice
+
+<br/>
+
+```
+$ mkdir users && cd users
+$ npm install
+
+$ docker-compose up
+```
+
+<br/>
+
+### 003 Importing Data
+
+<br/>
+
+**user.entity.ts**
+
+need remove select, make seed:users and return as was.
+
+<br/>
+
+```
+  @Column({
+    select: false,
+  })
+  password: string;
+```
+
+<br/>
+
+```
+$ docker-compose up
+$ docker-compose exec users_backend sh
+$ npm run seed:users
+```
+
+<br/>
+
+```
+$ cd ../node-ambassador/
+
+$ npm install axios
+$ npm install -D @types/axios
+```
+
+<br/>
+
+```
+// SIGN UP
+$ curl \
+    --data '{
+      "first_name":"FirstName",
+      "last_name":"LastName",
+      "password":"123456789",
+      "password_confirm":"123456789",
+      "email":"marley1@example.com"}' \
+    --header "Content-Type: application/json" \
+    --request POST \
+    --url http://localhost:8000/api/admin/register \
+    | jq
+```
 
 <br/><br/>
 
