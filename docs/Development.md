@@ -227,7 +227,7 @@ $ npm install -D @types/axios
 <br/>
 
 ```
-// SIGN UP
+// REGISTER
 $ curl \
     --data '{
       "first_name":"FirstName",
@@ -239,6 +239,34 @@ $ curl \
     --request POST \
     --url http://localhost:8000/api/admin/register \
     | jq
+```
+
+<br/>
+
+### 005 Login
+
+<br/>
+
+```
+// LOGIN
+$ curl \
+    --data '{
+      "email":"marley1@example.com",
+      "password":"123456789"
+      }' \
+    --header "Content-Type: application/json" \
+    --request POST \
+    --url http://localhost:8000/api/admin/login \
+    | jq
+```
+
+<br/>
+
+```
+{
+  "message": "success"
+}
+
 ```
 
 <br/><br/>

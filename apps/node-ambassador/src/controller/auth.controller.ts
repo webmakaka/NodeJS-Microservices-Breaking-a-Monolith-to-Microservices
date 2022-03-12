@@ -1,15 +1,12 @@
 import axios from 'axios';
 import bcryptjs from 'bcryptjs';
 import { Request, Response } from 'express';
-import { sign } from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
 import { Order } from '../entity/order.entity';
 import { User } from '../entity/user.entity';
 
 export const Register = async (req: Request, res: Response) => {
   const body = req.body;
-
-  // const { ...body } = req.body;
 
   const response = await axios.post(
     'http://host.docker.internal:8001/api/register',
@@ -23,42 +20,17 @@ export const Register = async (req: Request, res: Response) => {
 };
 
 export const Login = async (req: Request, res: Response) => {
-  const user = await getRepository(User).findOne(
-    { email: req.body.email },
+  const body = req.body;
+
+  const { data } = await axios.post(
+    'http://host.docker.internal:8001/api/login',
     {
-      select: ['id', 'password', 'is_ambassador'],
+      ...body,
+      scope: req.path === '/api/admin/login' ? 'admin' : 'ambassador',
     }
   );
 
-  if (!user) {
-    return res.status(400).send({
-      message: 'invalid credentials!',
-    });
-  }
-
-  if (!(await bcryptjs.compare(req.body.password, user.password))) {
-    return res.status(400).send({
-      message: 'invalid credentials!',
-    });
-  }
-
-  const adminLogin = req.path === '/api/admin/login';
-
-  if (user.is_ambassador && adminLogin) {
-    return res.status(401).send({
-      message: 'unauthorized',
-    });
-  }
-
-  const token = sign(
-    {
-      id: user.id,
-      scope: adminLogin ? 'admin' : 'ambassador',
-    },
-    process.env.SECRET_KEY
-  );
-
-  res.cookie('jwt', token, {
+  res.cookie('jwt', data['jwt'], {
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000, //1 day
   });
