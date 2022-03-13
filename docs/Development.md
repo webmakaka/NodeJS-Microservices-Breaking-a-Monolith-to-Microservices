@@ -291,6 +291,7 @@ $ curl \
 <br/>
 
 ```
+// NOT WORKS!
 // Need to send with cookies
 // I have an issue with it
 // ADMIN
@@ -304,6 +305,7 @@ $ curl \
 <br/>
 
 ```
+// NOT WORKS!
 // Need to send with cookies
 // I have an issue with it
 // AMBASSADOR
@@ -321,12 +323,35 @@ $ curl \
 <br/>
 
 ```
+// NOT WORKS!
 // AMBASSADOR LOGOUT
 $ curl \
     --data '{}' \
     --header "Content-Type: application/json" \
     --request POST \
     --url http://localhost:8000/api/ambassador/logout \
+    | jq
+```
+
+<br/>
+
+### 008 Profile
+
+<br/>
+
+```
+// UPDATE
+// NOT WORKS!
+$ curl \
+    --data '{
+      "first_name":"FirstName1",
+      "last_name":"LastName1",
+      "password":"123456789",
+      "password_confirm":"123456789",
+      "email":"marley1@example.com"}' \
+    --header "Content-Type: application/json" \
+    --request PUT \
+    --url http://localhost:8000/api/admin/users/info \
     | jq
 ```
 
