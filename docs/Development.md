@@ -314,6 +314,22 @@ $ curl \
     | jq
 ```
 
+<br/>
+
+### 007 Storing Tokens
+
+<br/>
+
+```
+// AMBASSADOR LOGOUT
+$ curl \
+    --data '{}' \
+    --header "Content-Type: application/json" \
+    --request POST \
+    --url http://localhost:8000/api/ambassador/logout \
+    | jq
+```
+
 <br/><br/>
 
 ---

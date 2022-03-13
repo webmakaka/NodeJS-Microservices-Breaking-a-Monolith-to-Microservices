@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
-import { getRepository } from 'typeorm';
+import { getRepository, MoreThanOrEqual } from 'typeorm';
+import { Token } from '../entity/token.entity';
 import { User } from '../entity/user.entity';
 
 export const AuthMiddleware = async (
@@ -22,6 +23,17 @@ export const AuthMiddleware = async (
     // const is_ambassador = req.path.indexOf('api/ambassador') >= 0;
 
     const user = await getRepository(User).findOne(payload.id);
+
+    const userToken = await getRepository(Token).findOne({
+      user_id: user.id,
+      expired_at: MoreThanOrEqual(new Date()),
+    });
+
+    if (!userToken) {
+      return res.status(401).send({
+        message: 'unauthenticated',
+      });
+    }
 
     // if (
     //   (is_ambassador && payload.scope !== 'ambassador') ||

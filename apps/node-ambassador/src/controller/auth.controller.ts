@@ -61,6 +61,18 @@ export const AuthenticatedUser = async (req: Request, res: Response) => {
 };
 
 export const Logout = async (req: Request, res: Response) => {
+  const jwt = req.cookies['jwt'];
+
+  await axios.post(
+    'http://host.docker.internal:8001/api/logout',
+    {},
+    {
+      headers: {
+        Cookie: `jwt=${jwt}`,
+      },
+    }
+  );
+
   res.cookie('jwt', '', { maxAge: 0 });
 
   res.send({
