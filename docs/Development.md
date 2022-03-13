@@ -248,7 +248,7 @@ $ curl \
 <br/>
 
 ```
-// LOGIN
+// ADMIN LOGIN
 $ curl \
     --data '{
       "email":"marley1@example.com",
@@ -263,10 +263,55 @@ $ curl \
 <br/>
 
 ```
+// AMBASSADOR LOGIN
+$ curl \
+    --data '{
+      "email":"marley1@example.com",
+      "password":"123456789"
+      }' \
+    --header "Content-Type: application/json" \
+    --request POST \
+    --url http://localhost:8000/api/ambassador/login \
+    | jq
+```
+
+<br/>
+
+```
 {
   "message": "success"
 }
 
+```
+
+<br/>
+
+### 006 Requests with Headers
+
+<br/>
+
+```
+// Need to send with cookies
+// I have an issue with it
+// ADMIN
+$ curl \
+    --header "Content-Type: application/json" \
+    --request GET \
+    --url http://localhost:8000/api/admin/user \
+    | jq
+```
+
+<br/>
+
+```
+// Need to send with cookies
+// I have an issue with it
+// AMBASSADOR
+$ curl \
+    --header "Content-Type: application/json" \
+    --request GET \
+    --url http://localhost:8000/api/ambassador/user \
+    | jq
 ```
 
 <br/><br/>

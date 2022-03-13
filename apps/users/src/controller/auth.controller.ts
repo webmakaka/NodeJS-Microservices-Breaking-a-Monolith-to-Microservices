@@ -55,3 +55,7 @@ export const Login = async (req: Request, res: Response) => {
     jwt,
   });
 };
+
+export const AuthenticatedUser = async (req: Request, res: Response) => {
+  res.send(req['user']);
+};

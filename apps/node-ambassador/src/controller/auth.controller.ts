@@ -49,13 +49,13 @@ export const AuthenticatedUser = async (req: Request, res: Response) => {
 
   const orders = await getRepository(Order).find({
     where: {
-      user_id: user.id,
+      user_id: user['id'],
       complete: true,
     },
     relations: ['order_items'],
   });
 
-  user.revenue = orders.reduce((s, o) => s + o.ambassador_revenue, 0);
+  user['revenue'] = orders.reduce((s, o) => s + o.ambassador_revenue, 0);
 
   res.send(user);
 };
